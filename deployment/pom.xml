@@ -16,6 +16,10 @@
             <artifactId>quarkus-arc-deployment</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-context-propagation-deployment</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fntsoftware</groupId>
             <artifactId>solr</artifactId>
             <version>${project.version}</version>
