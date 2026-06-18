@@ -16,10 +16,12 @@ quarkus.solr.devservices.enabled=true
 quarkus.solr.devservices.core=<your core name>
 # default version is the latest stable one
 quarkus.solr.devservices.version=9.6.1
+# classpath resource directory containing core.properties and conf/
+quarkus.solr.devservices.config-path=solr
 ```
 
-Also, the extension expects the configuration for the Solr core in the `solr` directory in the resources of your
-project.
+By default, the extension expects the configuration for the Solr core in the `solr` directory in the resources of your
+project. Use `quarkus.solr.devservices.config-path` to point to another classpath resource directory.
 
 ### Prod
 

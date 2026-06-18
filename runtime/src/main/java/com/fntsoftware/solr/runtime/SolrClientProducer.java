@@ -1,6 +1,7 @@
 package com.fntsoftware.solr.runtime;
 
 import io.quarkus.arc.lookup.LookupUnlessProperty;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
@@ -20,10 +21,16 @@ public class SolrClientProducer {
     @Inject
     ManagedExecutor executor;
 
+    private SolrClient client;
+
     @Produces
     @ApplicationScoped
-    @LookupUnlessProperty(name = "quarkus.solr.enabled", stringValue = "false")
-    public SolrClient getClient() throws SolrServerException, IOException {
+    @LookupUnlessProperty(name = "quarkus.solr.enabled", stringValue = "false", lookupIfMissing = true)
+    public synchronized SolrClient getClient() throws SolrServerException, IOException {
+        if (client != null) {
+            return client;
+        }
+
         HttpJdkSolrClient.Builder builder = new HttpJdkSolrClient.Builder(config.url())
                 .withExecutor(executor)
                 .useHttp1_1(config.useHttp1_1())
@@ -39,8 +46,15 @@ public class SolrClientProducer {
             builder.withDefaultCollection(config.defaultCollection().get());
         }
 
-        SolrClient c = builder.build();
-        c.ping();
-        return c;
+        client = builder.build();
+        client.ping();
+        return client;
+    }
+
+    @PreDestroy
+    void close() throws IOException {
+        if (client != null) {
+            client.close();
+        }
     }
 }

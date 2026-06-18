@@ -30,4 +30,12 @@ public interface SolrDevserviceConfig {
      */
     @WithDefault("9.6.1")
     String version();
+
+    /**
+     * Classpath resource directory containing the Solr core configuration.
+     *
+     * @return
+     */
+    @WithDefault("solr")
+    String configPath();
 }

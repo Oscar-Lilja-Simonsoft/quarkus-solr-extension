@@ -11,6 +11,14 @@ import java.util.Optional;
 @ConfigRoot(phase = ConfigPhase.RUN_TIME)
 public interface SolrConnectionConfig {
     /**
+     * Whether the SolrJ client should be produced.
+     *
+     * @return
+     */
+    @WithDefault("true")
+    boolean enabled();
+
+    /**
      * The URL to the Solr server instance
      *
      * @return
