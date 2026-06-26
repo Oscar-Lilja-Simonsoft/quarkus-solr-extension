@@ -25,7 +25,10 @@ class SolrProcessor {
 
     @BuildStep
     public AdditionalBeanBuildItem producer() {
-        return new AdditionalBeanBuildItem(SolrClientProducer.class);
+        return AdditionalBeanBuildItem.builder()
+                .addBeanClass(SolrClientProducer.class)
+                .setUnremovable()
+                .build();
     }
 
     @BuildStep(onlyIfNot = IsNormal.class, onlyIf = WantsSolrDevService.class)
